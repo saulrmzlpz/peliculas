@@ -7,14 +7,12 @@ import 'dart:convert';
 List<CartItem> cartItemFromJson(String str) =>
     List<CartItem>.from(json.decode(str).map((x) => CartItem.fromJson(x)));
 
-String cartItemToJson(List<CartItem> data) =>
-    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
-
 class CartItem {
   CartItem({
     required this.cartItemId,
     required this.userId,
     required this.movieId,
+    required this.movieName,
     required this.itemPrice,
     required this.itemImg,
     required this.itemAddTimeStamp,
@@ -23,25 +21,26 @@ class CartItem {
   int cartItemId;
   int userId;
   int movieId;
-  int itemPrice;
+  String movieName;
+  double itemPrice;
   String itemImg;
   DateTime itemAddTimeStamp;
 
   factory CartItem.fromJson(Map<String, dynamic> json) => CartItem(
-        cartItemId: json["cartItemId"],
-        userId: json["userId"],
-        movieId: json["movieId"],
-        itemPrice: json["itemPrice"],
-        itemImg: json["itemImg"],
-        itemAddTimeStamp: DateTime.parse(json["itemAddTimeStamp"]),
+        cartItemId: json["CartItemId"],
+        userId: json["UserId"],
+        movieId: json["MovieId"],
+        movieName: json["MovieName"],
+        itemPrice: json["ItemPrice"],
+        itemImg: json["ItemImg"],
+        itemAddTimeStamp: DateTime.parse(json["ItemAddTimeStamp"]),
       );
 
   Map<String, dynamic> toJson() => {
-        "cartItemId": cartItemId,
-        "userId": userId,
-        "movieId": movieId,
-        "itemPrice": itemPrice,
-        "itemImg": itemImg,
-        "itemAddTimeStamp": itemAddTimeStamp.toIso8601String(),
+        "UserId": userId,
+        "MovieId": movieId,
+        "MovieName": movieName,
+        "ItemPrice": itemPrice,
+        "ItemImg": itemImg,
       };
 }

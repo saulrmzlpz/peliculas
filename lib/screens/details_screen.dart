@@ -1,12 +1,15 @@
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:peliculas/models/models.dart';
+import 'package:peliculas/providers/cart_provider.dart';
 import 'package:peliculas/widgets/casting_cards.dart';
+import 'package:provider/provider.dart';
 
 class DetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Movie movie = ModalRoute.of(context)!.settings.arguments as Movie;
+    final cartProvider = Provider.of<CartProvider>(context);
     int counter = 0;
     return Scaffold(
         body: CustomScrollView(
@@ -15,7 +18,7 @@ class DetailsScreen extends StatelessWidget {
         _CustomAppBar(backdrop: movie.fullBackdropPath, title: movie.title),
         SliverList(
             delegate: SliverChildListDelegate([
-          _PosterAndTitle(movie: movie),
+          _PosterAndTitle(movie: movie, provider: cartProvider),
           _Overview(
             movie: movie,
           ),
@@ -71,8 +74,10 @@ class _CustomAppBar extends StatelessWidget {
 
 class _PosterAndTitle extends StatelessWidget {
   final Movie movie;
+  final CartProvider provider;
 
-  const _PosterAndTitle({Key? key, required this.movie}) : super(key: key);
+  const _PosterAndTitle({Key? key, required this.movie, required this.provider})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -124,6 +129,10 @@ class _PosterAndTitle extends StatelessWidget {
                   ],
                 ),
                 SizedBox(height: 10),
+                Text("\$${movie.popularity.toStringAsFixed(2)} MXN",
+                    style: textTheme.headline6,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2),
                 ElevatedButton(
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -133,7 +142,7 @@ class _PosterAndTitle extends StatelessWidget {
                       Text('Comprar en 4K')
                     ],
                   ),
-                  onPressed: () {},
+                  onPressed: () => provider.addCartItem(movie),
                 ),
               ],
             ),

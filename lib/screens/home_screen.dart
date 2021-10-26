@@ -23,7 +23,6 @@ class HomeScreen extends StatelessWidget {
                 position: BadgePosition.topEnd(top: 0, end: 10),
                 animationType: BadgeAnimationType.slide,
                 badgeContent: Text('0'),
-                showBadge: false,
                 child: IconButton(
                     onPressed: () => Navigator.of(context).pushNamed('cart'),
                     icon: Icon(Icons.shopping_cart_rounded)))

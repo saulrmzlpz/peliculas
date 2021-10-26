@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:peliculas/providers/cart_provider.dart';
 import 'package:peliculas/providers/login_provider.dart';
 import 'package:peliculas/providers/movies_provider.dart';
 import 'package:peliculas/providers/user_provider.dart';
@@ -17,6 +18,10 @@ class AppState extends StatelessWidget {
           lazy: false,
         ),
         ChangeNotifierProvider(create: (_) => AuthProvider()),
+        ChangeNotifierProvider(
+          create: (_) => CartProvider(),
+          lazy: true,
+        ),
         ChangeNotifierProvider(create: (_) => UserProvider()),
       ],
       child: MyApp(),
