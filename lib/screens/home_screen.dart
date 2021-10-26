@@ -1,3 +1,4 @@
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:peliculas/providers/movies_provider.dart';
 import 'package:peliculas/search/search_delegate.dart';
@@ -17,7 +18,15 @@ class HomeScreen extends StatelessWidget {
               onPressed: () =>
                   showSearch(context: context, delegate: MovieSearchDelegate()),
               icon: Icon(Icons.search_outlined),
-            )
+            ),
+            Badge(
+                position: BadgePosition.topEnd(top: 0, end: 10),
+                animationType: BadgeAnimationType.slide,
+                badgeContent: Text('0'),
+                showBadge: false,
+                child: IconButton(
+                    onPressed: () => Navigator.of(context).pushNamed('cart'),
+                    icon: Icon(Icons.shopping_cart_rounded)))
           ],
         ),
         body: SingleChildScrollView(
@@ -26,7 +35,7 @@ class HomeScreen extends StatelessWidget {
               CardSwiper(movies: moviesProvider.onDisplayMovies),
               MovieSlider(
                 movies: moviesProvider.popularMovies,
-                title: 'Las mas perras',
+                title: 'Tendencias',
                 onNextPage: () => moviesProvider.getPopularMovies(),
               ),
             ],

@@ -47,14 +47,13 @@ class MovieSearchDelegate extends SearchDelegate {
   }
 
   Widget _emptyContainer() {
-    return Container(
-        child: Center(
+    return Center(
       child: Icon(
         Icons.movie_creation_outlined,
         color: Colors.black38,
         size: 130,
       ),
-    ));
+    );
   }
 }
 

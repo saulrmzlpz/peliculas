@@ -1,3 +1,4 @@
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:peliculas/models/models.dart';
 import 'package:peliculas/widgets/casting_cards.dart';
@@ -6,7 +7,7 @@ class DetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Movie movie = ModalRoute.of(context)!.settings.arguments as Movie;
-
+    int counter = 0;
     return Scaffold(
         body: CustomScrollView(
       physics: BouncingScrollPhysics(),
@@ -37,6 +38,7 @@ class _CustomAppBar extends StatelessWidget {
 
   const _CustomAppBar({Key? key, required this.backdrop, required this.title})
       : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
@@ -114,15 +116,25 @@ class _PosterAndTitle extends StatelessWidget {
                       size: 15,
                       color: Colors.grey,
                     ),
-                    SizedBox(
-                      width: 5.0,
-                    ),
+                    SizedBox(width: 5.0),
                     Text(
                       movie.voteAverage.toString(),
                       style: textTheme.caption,
                     )
                   ],
-                )
+                ),
+                SizedBox(height: 10),
+                ElevatedButton(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: const [
+                      Icon(Icons.add_shopping_cart_outlined),
+                      SizedBox(width: 5.0),
+                      Text('Comprar en 4K')
+                    ],
+                  ),
+                  onPressed: () {},
+                ),
               ],
             ),
           ),

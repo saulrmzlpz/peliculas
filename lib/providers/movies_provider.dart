@@ -3,15 +3,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:peliculas/helpers/app_url.dart';
 import 'package:peliculas/helpers/debouncer.dart';
 import 'package:peliculas/models/models.dart';
 import 'package:peliculas/models/search_response.dart';
 
 class MoviesProvider extends ChangeNotifier {
-  final String _baseUrl = 'api.themoviedb.org';
-  final String _apiKey = 'b285f0eedfa046a18f9806eecdf729fe';
-  final String _language = 'es-ES';
-
   List<Movie> onDisplayMovies = [];
   List<Movie> popularMovies = [];
 
@@ -33,8 +30,11 @@ class MoviesProvider extends ChangeNotifier {
   }
 
   Future<String> _getJsonData(String endpoint, [int page = 1]) async {
-    final url = Uri.https(_baseUrl, '3/$endpoint',
-        {'api_key': _apiKey, 'language': _language, 'page': '$page'});
+    final url = Uri.https(AppUrl.movieBaseUrl, '3/$endpoint', {
+      'api_key': AppUrl.movieApiKey,
+      'language': AppUrl.movieLanguage,
+      'page': '$page'
+    });
 
     // Await the http get response, then decode the json-formatted response.
     final response = await http.get(url);
@@ -65,8 +65,11 @@ class MoviesProvider extends ChangeNotifier {
   }
 
   Future<List<Movie>> searchMovies(String query) async {
-    final url = Uri.https(_baseUrl, '3/search/movie',
-        {'api_key': _apiKey, 'language': _language, 'query': query});
+    final url = Uri.https(AppUrl.movieBaseUrl, '3/search/movie', {
+      'api_key': AppUrl.movieApiKey,
+      'language': AppUrl.movieLanguage,
+      'query': query
+    });
     final response = await http.get(url);
     final searchResponse = SearchResponse.fromJson(response.body);
     return searchResponse.results;

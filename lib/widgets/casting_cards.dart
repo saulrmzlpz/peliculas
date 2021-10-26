@@ -27,7 +27,7 @@ class CastingCards extends StatelessWidget {
           width: double.infinity,
           height: 200,
           child: ListView.builder(
-            itemCount: 10,
+            itemCount: snapshot.data!.length,
             scrollDirection: Axis.horizontal,
             itemBuilder: (BuildContext context, int index) {
               return _CastCard(actor: snapshot.data![index]);
