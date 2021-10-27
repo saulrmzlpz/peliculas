@@ -8,7 +8,7 @@ class CartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cartProvider = Provider.of<CartProvider>(context);
+    final cartProvider = Provider.of<CartProvider>(context, listen: true);
     return Scaffold(
         appBar: AppBar(
           title: Text('Carrito'),
@@ -23,16 +23,16 @@ class CartScreen extends StatelessWidget {
                 child: CartItemsList(cartProvider: cartProvider),
               ),
               Text(
-                'Articulos: 0',
+                'Articulos: ${cartProvider.cartCounter}',
                 style: Theme.of(context).textTheme.headline6,
               ),
               Text(
-                "Total: \$0.00 MXN",
+                "Total: \$${cartProvider.total}",
                 style: Theme.of(context).textTheme.headline5,
               ),
               SizedBox(height: 20),
               ElevatedButton(
-                  onPressed: () {},
+                  onPressed: cartProvider.cartCounter == 0 ? null : () {},
                   child: Container(
                       height: 50,
                       alignment: Alignment.center,
@@ -53,12 +53,16 @@ class CartItemsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (cartProvider.cartItems.isEmpty) {
+      return Center(child: Text('Agrega al menos una pelicula al carrito'));
+    }
     return ListView.separated(
       separatorBuilder: (_, __) => Divider(),
       itemCount: cartProvider.cartItems.length,
       itemBuilder: (BuildContext context, int index) {
         return Dismissible(
-          onDismissed: (direction) => cartProvider
+          onDismissed: (direction) => context
+              .read<CartProvider>()
               .deleteCartItem(cartProvider.cartItems[index].cartItemId),
           key: ValueKey<int>(cartProvider.cartItems[index].cartItemId),
           child: CartItemTile(cartItem: cartProvider.cartItems[index]),
