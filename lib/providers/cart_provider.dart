@@ -7,10 +7,29 @@ import 'package:peliculas/models/models.dart';
 import 'package:http/http.dart' as http;
 
 class CartProvider with ChangeNotifier {
+  List<CartItem> cartItems = [];
+
   CartProvider() {
     getCartItems();
   }
-  List<CartItem> cartItems = [];
+
+  String get total {
+    return cartItems
+        .fold(
+            0.0,
+            (double currentTotal, CartItem nextProduct) =>
+                currentTotal + nextProduct.itemPrice)
+        .toStringAsFixed(2);
+  }
+
+  bool movieInCart(int movieId) {
+    return cartItems.any((cartItem) => cartItem.movieId == movieId);
+  }
+
+  int get cartCounter {
+    return cartItems.length;
+  }
+
   getCartItems() async {
     try {
       final url = Uri.parse(
@@ -21,7 +40,6 @@ class CartProvider with ChangeNotifier {
         case 200:
           final cartItemsResponse = cartItemFromJson(response.body);
           cartItems = cartItemsResponse;
-          notifyListeners();
           break;
       }
     } catch (e) {
@@ -46,7 +64,9 @@ class CartProvider with ChangeNotifier {
           .post(url, body: body, headers: {'Content-Type': 'application/json'});
       switch (response.statusCode) {
         case 200:
-          return true;
+          await getCartItems();
+          notifyListeners();
+          break;
       }
     } catch (e) {
       log(e.toString());
@@ -61,7 +81,9 @@ class CartProvider with ChangeNotifier {
       final response = await http.delete(url);
       switch (response.statusCode) {
         case 200:
-          return true;
+          await getCartItems();
+          notifyListeners();
+          break;
       }
     } catch (e) {
       log(e.toString());
