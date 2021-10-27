@@ -9,8 +9,7 @@ class DetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Movie movie = ModalRoute.of(context)!.settings.arguments as Movie;
-    final cartProvider = Provider.of<CartProvider>(context);
-    int counter = 0;
+    final cartProvider = Provider.of<CartProvider>(context, listen: true);
     return Scaffold(
         body: CustomScrollView(
       physics: BouncingScrollPhysics(),
@@ -82,6 +81,7 @@ class _PosterAndTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final textTheme = Theme.of(context).textTheme;
+    final bool movieAdded = provider.movieInCart(movie.id);
     return Container(
       margin: EdgeInsets.only(top: 20.0),
       padding: EdgeInsets.symmetric(horizontal: 20.0),
@@ -136,13 +136,16 @@ class _PosterAndTitle extends StatelessWidget {
                 ElevatedButton(
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
-                    children: const [
-                      Icon(Icons.add_shopping_cart_outlined),
+                    children: [
+                      Icon(movieAdded
+                          ? Icons.check
+                          : Icons.add_shopping_cart_outlined),
                       SizedBox(width: 5.0),
-                      Text('Comprar en 4K')
+                      Text(movieAdded ? 'Agregado al carrito' : 'Comprar en 4K')
                     ],
                   ),
-                  onPressed: () => provider.addCartItem(movie),
+                  onPressed:
+                      movieAdded ? null : () => provider.addCartItem(movie),
                 ),
               ],
             ),

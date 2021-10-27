@@ -1,5 +1,6 @@
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
+import 'package:peliculas/providers/cart_provider.dart';
 import 'package:peliculas/providers/movies_provider.dart';
 import 'package:peliculas/search/search_delegate.dart';
 import 'package:peliculas/widgets/widgets.dart';
@@ -9,6 +10,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final moviesProvider = Provider.of<MoviesProvider>(context);
+    final cartProvider = Provider.of<CartProvider>(context, listen: true);
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -22,7 +24,7 @@ class HomeScreen extends StatelessWidget {
             Badge(
                 position: BadgePosition.topEnd(top: 0, end: 10),
                 animationType: BadgeAnimationType.slide,
-                badgeContent: Text('0'),
+                badgeContent: Text('${cartProvider.cartCounter}'),
                 child: IconButton(
                     onPressed: () => Navigator.of(context).pushNamed('cart'),
                     icon: Icon(Icons.shopping_cart_rounded)))
