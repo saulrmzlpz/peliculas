@@ -18,10 +18,7 @@ class AppState extends StatelessWidget {
           lazy: false,
         ),
         ChangeNotifierProvider(create: (_) => AuthProvider()),
-        ChangeNotifierProvider(
-          create: (_) => CartProvider(),
-          lazy: true,
-        ),
+        ChangeNotifierProvider(create: (_) => CartProvider()),
         ChangeNotifierProvider(create: (_) => UserProvider()),
       ],
       child: MyApp(),
