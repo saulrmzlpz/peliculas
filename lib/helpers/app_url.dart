@@ -5,7 +5,7 @@ class AppUrl {
   static const String movieApiKey = 'b285f0eedfa046a18f9806eecdf729fe';
   static const String movieLanguage = 'es-ES';
   static const String baseURL = _localBaseURL;
-  static const String login = "$baseURL/login";
+  static const String login = "$baseURL/Users/authenticate";
   static const String cartItems = "$baseURL/CartItems";
-  static const String register = "$baseURL/registration";
+  static const String register = "$baseURL/Users/registration";
 }

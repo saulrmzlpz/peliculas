@@ -3,15 +3,13 @@ import 'dart:developer';
 
 import 'package:flutter/Material.dart';
 import 'package:peliculas/helpers/app_url.dart';
+import 'package:peliculas/helpers/user_preferences.dart';
 import 'package:peliculas/models/models.dart';
 import 'package:http/http.dart' as http;
 
 class CartProvider with ChangeNotifier {
+  final _prefs = UserPreferences();
   List<CartItem> cartItems = [];
-
-  CartProvider() {
-    getCartItems();
-  }
 
   String get total {
     return cartItems
@@ -30,10 +28,12 @@ class CartProvider with ChangeNotifier {
     return cartItems.length;
   }
 
-  getCartItems() async {
+  Future<void> getCartItems() async {
+    print('Llamada');
+
     try {
       final url = Uri.parse(
-        "http://${AppUrl.cartItems}/1",
+        "http://${AppUrl.cartItems}/${_prefs.getUser().userId}",
       );
       final response = await http.get(url);
       switch (response.statusCode) {
@@ -54,7 +54,7 @@ class CartProvider with ChangeNotifier {
       );
       final body = json.encode(CartItem(
           cartItemId: 0,
-          userId: 1,
+          userId: _prefs.getUser().userId,
           movieId: movie.id,
           movieName: movie.title,
           itemPrice: movie.popularity,

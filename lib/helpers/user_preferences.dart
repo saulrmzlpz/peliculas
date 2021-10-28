@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:peliculas/models/models.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -12,49 +10,42 @@ class UserPreferences {
 
   UserPreferences._internal();
 
-  Future<bool> saveUser(User user) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
+  late SharedPreferences _prefs;
 
-    prefs.setInt("userId", user.userId);
-    prefs.setString("firstName", user.firstName);
-    prefs.setString("lastName", user.lastName);
-    prefs.setString("email", user.email);
-    prefs.setString("token", user.token);
-    prefs.setString("renewalToken", user.renewalToken);
+  initPrefs() async {
+    this._prefs = await SharedPreferences.getInstance();
+  }
+
+  bool saveUser(User user) {
+    _prefs.setInt("userId", user.userId);
+    _prefs.setString("firstName", user.firstName);
+    _prefs.setString("lastName", user.lastName);
+    _prefs.setString("email", user.email);
+    _prefs.setString("memberSince", user.memberSince);
     return true;
   }
 
-  Future<User> getUser() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    int userId = prefs.getInt("userId") ?? 0;
-    String name = prefs.getString("firstName") ?? "";
-    String lastName = prefs.getString("lastName") ?? "";
-    String email = prefs.getString("email") ?? "";
-    String token = prefs.getString("token") ?? "";
-    String renewalToken = prefs.getString("renewalToken") ?? "";
+  User getUser() {
+    int userId = _prefs.getInt("userId") ?? 0;
+    String name = _prefs.getString("firstName") ?? "";
+    String lastName = _prefs.getString("lastName") ?? "";
+    String email = _prefs.getString("email") ?? "";
+    String memberSince = _prefs.getString("token") ?? "";
 
     return User(
         userId: userId,
         firstName: name,
         email: email,
         lastName: lastName,
-        token: token,
-        renewalToken: renewalToken);
+        memberSince: memberSince);
   }
 
   void removeUser() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-
+    prefs.remove("userId");
     prefs.remove("firstName");
     prefs.remove("email");
     prefs.remove("lastName");
-    prefs.remove("token");
-  }
-
-  Future<String> getToken(args) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    String token = prefs.getString("token") ?? "";
-    return token;
+    prefs.remove("memberSince");
   }
 }

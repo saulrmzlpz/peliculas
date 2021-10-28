@@ -9,6 +9,7 @@ class CartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cartProvider = Provider.of<CartProvider>(context, listen: true);
+    final int cartCounter = cartProvider.cartCounter;
     return Scaffold(
         appBar: AppBar(
           title: Text('Carrito'),
@@ -23,7 +24,7 @@ class CartScreen extends StatelessWidget {
                 child: CartItemsList(cartProvider: cartProvider),
               ),
               Text(
-                'Articulos: ${cartProvider.cartCounter}',
+                'Articulos: $cartCounter',
                 style: Theme.of(context).textTheme.headline6,
               ),
               Text(
@@ -32,7 +33,7 @@ class CartScreen extends StatelessWidget {
               ),
               SizedBox(height: 20),
               ElevatedButton(
-                  onPressed: cartProvider.cartCounter == 0 ? null : () {},
+                  onPressed: cartCounter == 0 ? null : () {},
                   child: Container(
                       height: 50,
                       alignment: Alignment.center,
@@ -61,8 +62,7 @@ class CartItemsList extends StatelessWidget {
       itemCount: cartProvider.cartItems.length,
       itemBuilder: (BuildContext context, int index) {
         return Dismissible(
-          onDismissed: (direction) => context
-              .read<CartProvider>()
+          onDismissed: (direction) => cartProvider
               .deleteCartItem(cartProvider.cartItems[index].cartItemId),
           key: ValueKey<int>(cartProvider.cartItems[index].cartItemId),
           child: CartItemTile(cartItem: cartProvider.cartItems[index]),

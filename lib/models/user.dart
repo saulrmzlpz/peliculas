@@ -1,26 +1,22 @@
 class User {
   int userId;
-  String firstName;
   String email;
+  String firstName;
   String lastName;
-  String token;
-  String renewalToken;
-
+  String memberSince;
   User(
       {required this.userId,
-      required this.firstName,
       required this.email,
+      required this.firstName,
       required this.lastName,
-      required this.token,
-      required this.renewalToken});
+      required this.memberSince});
 
-  factory User.fromJson(Map<String, dynamic> responseData) {
+  factory User.fromJson(Map<String, dynamic> json) {
     return User(
-        userId: responseData['id'],
-        firstName: responseData['name'],
-        email: responseData['email'],
-        lastName: responseData['phone'],
-        token: responseData['access_token'],
-        renewalToken: responseData['renewal_token']);
+        userId: json['Id'],
+        email: json['UserEmail'],
+        firstName: json['FirstName'],
+        lastName: json['LastName'],
+        memberSince: json['MemberSince']);
   }
 }

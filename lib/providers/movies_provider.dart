@@ -24,7 +24,6 @@ class MoviesProvider extends ChangeNotifier {
       _suggestionStreamController.stream;
 
   MoviesProvider() {
-    print('MoviesProvider inicializado');
     getOnDisplayMovies();
     getPopularMovies();
   }
@@ -35,8 +34,6 @@ class MoviesProvider extends ChangeNotifier {
       'language': AppUrl.movieLanguage,
       'page': '$page'
     });
-
-    // Await the http get response, then decode the json-formatted response.
     final response = await http.get(url);
     return response.body;
   }
