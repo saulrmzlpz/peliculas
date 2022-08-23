@@ -14,8 +14,7 @@ class HomeScreen extends StatelessWidget {
           title: Text('Películas en cines'),
           actions: [
             IconButton(
-              onPressed: () =>
-                  showSearch(context: context, delegate: MovieSearchDelegate()),
+              onPressed: () => showSearch(context: context, delegate: MovieSearchDelegate()),
               icon: Icon(Icons.search_outlined),
             )
           ],
@@ -26,7 +25,7 @@ class HomeScreen extends StatelessWidget {
               CardSwiper(movies: moviesProvider.onDisplayMovies),
               MovieSlider(
                 movies: moviesProvider.popularMovies,
-                title: 'Las mas perras',
+                title: 'Populares',
                 onNextPage: () => moviesProvider.getPopularMovies(),
               ),
             ],

@@ -9,7 +9,7 @@ import 'package:peliculas/models/search_response.dart';
 
 class MoviesProvider extends ChangeNotifier {
   final String _baseUrl = 'api.themoviedb.org';
-  final String _apiKey = 'b285f0eedfa046a18f9806eecdf729fe';
+  final String _apiKey = '';
   final String _language = 'es-ES';
 
   List<Movie> onDisplayMovies = [];
@@ -21,10 +21,8 @@ class MoviesProvider extends ChangeNotifier {
   final debouncer = Debouncer(
     duration: Duration(milliseconds: 500),
   );
-  final StreamController<List<Movie>> _suggestionStreamController =
-      StreamController.broadcast();
-  Stream<List<Movie>> get suggestionStream =>
-      _suggestionStreamController.stream;
+  final StreamController<List<Movie>> _suggestionStreamController = StreamController.broadcast();
+  Stream<List<Movie>> get suggestionStream => _suggestionStreamController.stream;
 
   MoviesProvider() {
     print('MoviesProvider inicializado');
@@ -33,8 +31,7 @@ class MoviesProvider extends ChangeNotifier {
   }
 
   Future<String> _getJsonData(String endpoint, [int page = 1]) async {
-    final url = Uri.https(_baseUrl, '3/$endpoint',
-        {'api_key': _apiKey, 'language': _language, 'page': '$page'});
+    final url = Uri.https(_baseUrl, '3/$endpoint', {'api_key': _apiKey, 'language': _language, 'page': '$page'});
 
     // Await the http get response, then decode the json-formatted response.
     final response = await http.get(url);
@@ -65,8 +62,7 @@ class MoviesProvider extends ChangeNotifier {
   }
 
   Future<List<Movie>> searchMovies(String query) async {
-    final url = Uri.https(_baseUrl, '3/search/movie',
-        {'api_key': _apiKey, 'language': _language, 'query': query});
+    final url = Uri.https(_baseUrl, '3/search/movie', {'api_key': _apiKey, 'language': _language, 'query': query});
     final response = await http.get(url);
     final searchResponse = SearchResponse.fromJson(response.body);
     return searchResponse.results;
