@@ -27,7 +27,7 @@ class CastingCards extends StatelessWidget {
           width: double.infinity,
           height: 200,
           child: ListView.builder(
-            itemCount: 10,
+            itemCount: snapshot.data!.length,
             scrollDirection: Axis.horizontal,
             itemBuilder: (BuildContext context, int index) {
               return _CastCard(actor: snapshot.data![index]);
@@ -47,38 +47,40 @@ class _CastCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 10),
-      width: 110,
-      height: 100,
-      child: Column(
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: FadeInImage(
-              placeholder: AssetImage('assets/no-image.jpg'),
-              image: NetworkImage(actor.fullProfilePath),
-              height: 140,
-              width: 100,
-              fit: BoxFit.cover,
+      child: ConstrainedBox(
+        constraints: BoxConstraints(maxWidth: 120),
+        child: Column(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: FadeInImage(
+                placeholder: AssetImage('assets/no-image.jpg'),
+                image: NetworkImage(actor.fullProfilePath),
+                height: 140,
+                width: 100,
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
-          SizedBox(
-            height: 5,
-          ),
-          Text(
-            actor.name,
-            maxLines: 2,
-            style: TextStyle(fontWeight: FontWeight.bold),
-            overflow: TextOverflow.ellipsis,
-            textAlign: TextAlign.center,
-          ),
-          Text(
-            actor.character ?? '',
-            maxLines: 2,
-            style: TextStyle(fontStyle: FontStyle.italic),
-            overflow: TextOverflow.ellipsis,
-            textAlign: TextAlign.center,
-          )
-        ],
+            SizedBox(
+              height: 5,
+            ),
+            Text(
+              actor.name,
+              maxLines: 2,
+              style: TextStyle(fontWeight: FontWeight.bold),
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
+            ),
+            Text(
+              actor.character ?? '',
+              maxLines: 2,
+              softWrap: false,
+              style: TextStyle(fontStyle: FontStyle.italic),
+              overflow: TextOverflow.fade,
+              textAlign: TextAlign.center,
+            )
+          ],
+        ),
       ),
     );
   }
